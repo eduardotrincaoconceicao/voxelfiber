@@ -19,13 +19,12 @@ proposed for the [KCL](http://kcl.fi)-PAKKA simulator.
 It requires MATLAB R2018b and above. It also requires the Statistics and
 Machine Learning Toolbox.
 
+## Installation
+
+For the time being voxelfiber will not be packaged in a toolbox. Simply
+download the source code and documentation to a convenient folder.
+
 Run the demo by typing `formingdemo` in the MATLAB command window.
-
-## License
-
-voxelfiber is licensed under the [GNU General Public License
-version 3](https://opensource.org/licenses/GPL-3.0). No user support
-provided.
 
 ## Getting started
 
@@ -50,3 +49,11 @@ A basic description of voxelfiber can be found in [Coding a Simulation
 Model of the 3D Structure of
 Paper](https://doi.org/10.1007/978-3-642-12712-0_27). Please cite this
 paper if you use voxelfiber.
+
+-----
+
+#### License
+
+voxelfiber is licensed under the [GNU General Public License
+version 3](https://opensource.org/licenses/GPL-3.0). No user support
+provided.
