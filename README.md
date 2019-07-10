@@ -1,9 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# voxelfiber <img src="help/figures/logo.png" align="right" height="120" />
+# voxelfiber <img src="help/figures/logo.png" align="right" height="139" />
 
-Eduardo L. T. Conceição
+<!-- badges: start -->
+
+![author](https://img.shields.io/badge/author-Eduardo%20L.%20T.%20Conceição-green.svg)
+![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
+<!-- badges: end -->
 
 ## Overview
 
