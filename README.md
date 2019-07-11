@@ -20,13 +20,14 @@ property of fiber flexibility is implemented via the
 [mechanism](https://doi.org/10.1103/PhysRevLett.73.3475) originally
 proposed for the [KCL](http://kcl.fi)-PAKKA simulator.
 
-It requires MATLAB R2018b and above. It also requires the Statistics and
-Machine Learning Toolbox.
+<img src="help/figures/README-example-1.png" width="630" height="252" />
 
 ## Installation
 
-For the time being voxelfiber will not be packaged in a toolbox. Simply
-download the source code and documentation to a convenient folder.
+voxelfiber requires MATLAB R2018b and above. It also requires the
+Statistics and Machine Learning Toolbox. For the time being voxelfiber
+will not be packaged in a toolbox. Simply download the source code and
+documentation to a convenient folder.
 
 Run the demo by typing `formingdemo` in the MATLAB command window.
 
@@ -56,7 +57,7 @@ paper if you use voxelfiber.
 
 -----
 
-#### License
+### License
 
 voxelfiber is licensed under the [GNU General Public License
 version 3](https://opensource.org/licenses/GPL-3.0). No user support
