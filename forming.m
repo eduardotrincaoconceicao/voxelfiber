@@ -120,6 +120,7 @@ function out = forming(fib_length, flex, Nx, Ny, varargin)
 
     % NOTE: in the matrix coordinate system origin is at the upper
     % left corner. The physical z-axis is going down, not up.
+    % Thus elevation is expressed as depth.
 
     function [bend_plane, bend_slice, bheight, net_idx] = get_outofplane_slice()
         % This function extracts an out-of-plane slice from the 3D network

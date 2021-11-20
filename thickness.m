@@ -24,6 +24,7 @@ function val = thickness(x)
 
 % NOTE: in the matrix coordinate system origin is at the upper
 % left corner. The physical z-axis is going down, not up.
+% Thus elevation is expressed as depth.
 
 Nz = size(x.web, 1);
 thickness = zeros(length(x.sheet_top(:)), 1);
