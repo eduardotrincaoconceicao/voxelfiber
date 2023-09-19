@@ -1,3 +1,3 @@
-*.mlx -cflf -diff -merge
-*.mat -cflf -diff -merge
-*.fig -cflf -diff -merge
+*.mlx binary
+*.mat binary
+*.fig binary
