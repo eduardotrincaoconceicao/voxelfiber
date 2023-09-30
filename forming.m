@@ -193,11 +193,11 @@ coarseness = []; % g/m
 wall_density = []; % g/m3
 delxy = []; % m
 delz = []; % m
-fib_width = repmat(1, 1, nspecies);
-wall_thick = repmat(1, 1, nspecies);
-lumen_thick = repmat(2, 1, nspecies);
-horzspan = repmat(1, 1, nspecies);
-fraction = repmat(1/nspecies, 1, nspecies);
+fib_width = repelem(1, 1, nspecies);
+wall_thick = repelem(1, 1, nspecies);
+lumen_thick = repelem(2, 1, nspecies);
+horzspan = repelem(1, 1, nspecies);
+fraction = repelem(1/nspecies, 1, nspecies);
 choose_species = @choose_species_default;
 blocksize(1) = 1e4;
 if acceptanceprob >= 0.1
@@ -232,7 +232,7 @@ switch stop_criterion
             mfilename, 'nfib')
     case 'Grammage'
         validateattributes(grammage, {'numeric'}, ...
-            {'nonempty', 'scalar', 'positive'}, mfilename, 'grammage')
+            {'nonempty', 'scalar', 'positive', 'finite'}, mfilename, 'grammage')
         validateattributes(mass, {'char'}, {'nonempty'}, mfilename, 'mass')
         validatestring(mass, {'coarseness', 'wall_density'}, ...
                        mfilename, 'mass');
@@ -242,13 +242,15 @@ switch stop_criterion
                     {'nonempty', 'size', [1 nspecies], 'positive', 'finite'}, ...
                     mfilename, 'coarseness')
                 validateattributes(delxy, {'numeric'}, ...
-                    {'nonempty', 'scalar', 'positive'}, mfilename, 'delxy')
+                    {'nonempty', 'scalar', 'positive', 'finite'}, ...
+                    mfilename, 'delxy')
             case 'wall_density'
                 validateattributes(wall_density, {'numeric'}, ...
                     {'nonempty', 'size', [1 nspecies], 'positive', 'finite'}, ...
                     mfilename, 'wall_density')
                 validateattributes(delz, {'numeric'}, ...
-                    {'nonempty', 'scalar', 'positive'}, mfilename, 'delz')
+                    {'nonempty', 'scalar', 'positive', 'finite'}, ...
+                    mfilename, 'delz')
         end
 end
 validateattributes(fib_width, {'numeric'}, ...
@@ -268,8 +270,8 @@ validateattributes(choose_species, {'function_handle'}, {'nonempty'}, ...
 validateattributes(blocksize, {'numeric'}, ...
     {'size', [1 3], 'integer', 'positive'}, mfilename, 'blocksize')
 validateattributes(trace, {'logical'}, {'scalar'}, mfilename, 'trace')
-validateattributes(delay_trace, {'numeric'}, {'scalar', 'nonnegative'}, ...
-                   mfilename, 'delay_trace')
+validateattributes(delay_trace, {'numeric'}, ...
+    {'scalar', 'nonnegative', 'finite'}, mfilename, 'delay_trace')
 
 % NOTE: in-plane cells must be square because we locate discrete positions
 % along the fiber by using a raster line-drawing algorithm.
