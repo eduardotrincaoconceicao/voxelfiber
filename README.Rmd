@@ -19,7 +19,7 @@ voxelfiber is a morphological simulator for porous materials that can be modeled
 
 ## Installation
 
-voxelfiber requires MATLAB R2018b and above. It also requires the Statistics and Machine Learning Toolbox. For the time being voxelfiber will not be packaged in a toolbox. Simply download the source code and documentation to a convenient folder.
+voxelfiber requires MATLAB R2021a and above. It also requires the Statistics and Machine Learning Toolbox. For the time being voxelfiber will not be packaged in a toolbox. Simply download the source code and documentation to a convenient folder.
 
 Run the demo by typing `formingdemo` in the MATLAB command window.
 

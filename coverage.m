@@ -3,7 +3,7 @@ function val = coverage(x)
 %
 %   Example:
 %{
-      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, 'nfib', 1500);
+      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, nfib = 1500);
       c = coverage(randnet);
       subplot(1,2,1), imagesc(c.point), axis image, colormap bone
       subplot(1,2,2), stem3(c.point), view(-25, 30)

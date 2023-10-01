@@ -3,7 +3,7 @@ function vis_sheet(x, ratio)
 %
 %   Example:
 %{
-      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, 'nfib', 1500);
+      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, nfib = 1500);
       vis_sheet(randnet, [1 4 1])
 %}
 

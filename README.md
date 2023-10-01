@@ -24,7 +24,7 @@ proposed for the [KCL](http://kcl.fi)-PAKKA simulator.
 
 ## Installation
 
-voxelfiber requires MATLAB R2018b and above. It also requires the
+voxelfiber requires MATLAB R2021a and above. It also requires the
 Statistics and Machine Learning Toolbox. For the time being voxelfiber
 will not be packaged in a toolbox. Simply download the source code and
 documentation to a convenient folder.
@@ -37,11 +37,11 @@ The function `forming()` is used to construct the virtual material
 object and method functions are applied to the object to compute
 morphology features:
 
-  - porosity, by function `porosity()`
-  - sheet thickness, by function `thickness()`
-  - relative bonded area, by function `rba()`
-  - number of contacts between fibers, by function `numcrossings()`
-  - number of fibers covering a point, by function `coverage()`
+- porosity, by function `porosity()`
+- sheet thickness, by function `thickness()`
+- relative bonded area, by function `rba()`
+- number of contacts between fibers, by function `numcrossings()`
+- number of fibers covering a point, by function `coverage()`
 
 3D visualization is done using function `vis_sheet()`. This can take
 several minutes for large sheets with high basis weight. Help
@@ -55,10 +55,9 @@ Model of the 3D Structure of
 Paper](https://doi.org/10.1007/978-3-642-12712-0_27). Please cite this
 paper if you use voxelfiber.
 
------
+------------------------------------------------------------------------
 
 ### License
 
-voxelfiber is licensed under the [GNU General Public License
-version 3](https://opensource.org/licenses/GPL-3.0). No user support
-provided.
+voxelfiber is licensed under the [GNU General Public License version
+3](https://opensource.org/licenses/GPL-3.0). No user support provided.

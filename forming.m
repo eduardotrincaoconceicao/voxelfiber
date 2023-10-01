@@ -1,16 +1,16 @@
-function out = forming(fib_length, flex, Nx, Ny, varargin)
+function out = forming(fib_length, flex, Nx, Ny, options)
 %FORMING Simulation of 3D planar random fiber network using the KCL-PAKKA model for fiber flexibility.
 %
 %   Examples:
 %{
       forming([21 21 30 40], [1 2 3 4], 200, 200, ...
-              'nfib', 1500, 'trace', true, 'delay_trace', .01);
+              nfib = 1500, trace = true, delay_trace = .01);
       forming([21 21 30 40], [1 1 1 1], 100, 100, ...
-              'nfib', 100, 'horzspan', [1 2 4 6], 'trace', true);
+              nfib = 100, horzspan = [1 2 4 6], trace = true);
       forming([21 21 30 40], [1 2 3 4], 100, 100, ...
-              'nfib', 100, 'fib_width', [1 2 3 4], 'trace', true);
+              nfib = 100, fib_width = [1 2 3 4], trace = true);
 
-      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, 'nfib', 1500);
+      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, nfib = 1500);
       figure
       subplot(2,2,1), spy(randnet.surface)
       subplot(2,2,2), imagesc(randnet.surface), axis image
@@ -18,11 +18,11 @@ function out = forming(fib_length, flex, Nx, Ny, varargin)
 
       tic
       randnet = forming(100, 1, 400, 400, ...
-                        'acceptanceprob', 0.01, 'alpha', 0.94, ...
-                        'stop_criterion', 'Grammage', 'grammage', 40, ...
-                        'mass', 'coarseness', 'coarseness', 0.21e-3, ...
-                        'delxy', 5e-6, 'fib_width', 6, ...
-                        'wall_thick', 2, 'lumen_thick', 0);
+                        acceptanceprob = 0.01, alpha = 0.94, ...
+                        stop_criterion = 'Grammage', grammage = 40, ...
+                        mass = 'coarseness', coarseness = 0.21e-3, ...
+                        delxy = 5e-6, fib_width = 6, ...
+                        wall_thick = 2, lumen_thick = 0);
       toc
 %}
 
@@ -42,45 +42,48 @@ function out = forming(fib_length, flex, Nx, Ny, varargin)
 %         Tappi J. 81(5), 163-166.
 
 %   Copyright 2008-2011, University of Coimbra
-%   Copyright 2014, 2018, 2019, Eduardo L. T. Conceicao
+%   Copyright 2014, 2018, 2019, 2023, Eduardo L. T. Conceicao
 %   Available under the GPL-3
 
 
-    function parseInVarargin(argsToParse)
-    % Parse input arguments
-        for i = 1:2:length(argsToParse)
-            validateattributes(argsToParse{i}, {'char'}, {'nonempty'}, ...
-                               mfilename)
-            validatestring(argsToParse{i}, ...
-                          {'acceptanceprob', 'alpha', ...
-                           'stop_criterion', 'nfib', 'grammage', ...
-                           'mass', 'coarseness', 'wall_density', 'delxy', 'delz', ...
-                           'fib_width', 'wall_thick', 'lumen_thick', 'horzspan', ...
-                           'fraction', 'choose_species', ...
-                           'blocksize', 'trace', 'delay_trace'}, ...
-                           mfilename, argsToParse{i});
-            switch argsToParse{i}
-                case 'acceptanceprob', acceptanceprob = argsToParse{i+1};
-                case 'alpha', alpha = argsToParse{i+1};
-                case 'stop_criterion', stop_criterion = argsToParse{i+1};
-                case 'nfib', nfib = argsToParse{i+1};
-                case 'grammage', grammage = argsToParse{i+1};
-                case 'mass', mass = argsToParse{i+1};
-                case 'coarseness', coarseness = argsToParse{i+1};
-                case 'wall_density', wall_density = argsToParse{i+1};
-                case 'delxy', delxy = argsToParse{i+1};
-                case 'delz', delz = argsToParse{i+1};
-                case 'fib_width', fib_width = argsToParse{i+1};
-                case 'wall_thick', wall_thick = argsToParse{i+1};
-                case 'lumen_thick', lumen_thick = argsToParse{i+1};
-                case 'horzspan', horzspan = argsToParse{i+1};
-                case 'fraction', fraction = argsToParse{i+1};
-                case 'choose_species', choose_species = argsToParse{i+1};
-                case 'blocksize', blocksize = argsToParse{i+1};
-                case 'trace', trace = argsToParse{i+1};
-                case 'delay_trace', delay_trace = argsToParse{i+1};
-            end
-        end
+    arguments
+        fib_length
+        flex
+        Nx (1, 1) {mustBeNonempty, mustBeInteger, mustBePositive}
+        Ny (1, 1) {mustBeNonempty, mustBeInteger, mustBePositive}
+        options.acceptanceprob (1, 1) ...
+            {mustBeNonempty, mustBeNumeric, ...
+             mustBeInRange(options.acceptanceprob, 0, 1)} = 1
+        options.alpha (1, 1) ...
+            {mustBeNonempty, mustBeNumeric, ...
+             mustBeInRange(options.alpha, 0, 1)} = 1
+        options.stop_criterion ...
+            {mustBeTextScalar, ...
+             mustBeMember(options.stop_criterion, ["NumFibers", "Grammage"])} ...
+            = "NumFibers"
+        options.nfib = []
+        options.grammage = []
+        options.mass ...
+            {mustBeTextScalar, ...
+             mustBeMember(options.mass, ["coarseness", "wall_density"])} ...
+            = "coarseness"
+        options.coarseness = []
+        options.wall_density = []
+        options.delxy = []
+        options.delz = []
+        options.fib_width = repelem(1, 1, length(fib_length))
+        options.wall_thick = repelem(1, 1, length(fib_length))
+        options.lumen_thick = repelem(2, 1, length(fib_length))
+        options.horzspan = repelem(1, 1, length(fib_length))
+        options.fraction = repelem(1/length(fib_length), 1, length(fib_length))
+        options.choose_species = []
+        options.blocksize (1, 3) ...
+            {mustBeNonempty, mustBeInteger, mustBePositive} = [10000 10 10000]
+        options.trace ...
+            {mustBeA(options.trace, "logical")} = false
+        options.delay_trace (1, 1) ...
+            {mustBeNonempty, mustBeNumeric, ...
+             mustBeNonnegative, mustBeFinite} = 0.3
     end
 
     function draw_outofplane_grid()
@@ -176,55 +179,43 @@ function out = forming(fib_length, flex, Nx, Ny, varargin)
 
 % Check for a legal number of input arguments
 narginchk(6, 42)
+
+% Extract arguments
+acceptanceprob = options.acceptanceprob;
+alpha = options.alpha;
+stop_criterion = options.stop_criterion;
+nfib = options.nfib;
+grammage = options.grammage; % g/m2
+mass = options.mass;
+coarseness = options.coarseness; % g/m
+wall_density = options.wall_density; % g/m3
+delxy = options.delxy; % m
+delz = options.delz; % m
+fib_width = options.fib_width;
+wall_thick = options.wall_thick;
+lumen_thick = options.lumen_thick;
+horzspan = options.horzspan;
+fraction = options.fraction;
+if isempty(options.choose_species)
+    choose_species = @choose_species_default;
+end
+blocksize = options.blocksize;
+% blocksize(1) = 1e4;
+% if acceptanceprob >= 0.1
+%     blocksize(2) = 10;
+% else
+%     blocksize(2) = 1;
+% end
+% blocksize(3) = 1e4;
+trace = options.trace;
+delay_trace = options.delay_trace;
+
 % Check input parameters
 validateattributes(fib_length, {'numeric'}, ...
-    {'size', [1 NaN], 'integer', 'positive'}, mfilename, 'fib_length')
+    {'row', 'integer', 'positive'}, mfilename, 'fib_length')
 nspecies = length(fib_length);
-
-% Deal with missing arguments
-% Set default values
-acceptanceprob = 1;
-alpha = 1;
-stop_criterion = 'NumFibers';
-nfib = [];
-grammage = []; % g/m2
-mass = 'coarseness';
-coarseness = []; % g/m
-wall_density = []; % g/m3
-delxy = []; % m
-delz = []; % m
-fib_width = repelem(1, 1, nspecies);
-wall_thick = repelem(1, 1, nspecies);
-lumen_thick = repelem(2, 1, nspecies);
-horzspan = repelem(1, 1, nspecies);
-fraction = repelem(1/nspecies, 1, nspecies);
-choose_species = @choose_species_default;
-blocksize(1) = 1e4;
-if acceptanceprob >= 0.1
-    blocksize(2) = 10;
-else
-    blocksize(2) = 1;
-end
-blocksize(3) = 1e4;
-trace = false;
-delay_trace = 0.3;
-parseInVarargin(varargin)
-
-% Check input parameters
 validateattributes(flex, {'numeric'}, ...
     {'size', [1 nspecies], 'integer', 'nonnegative'}, mfilename, 'flex')
-validateattributes(Nx, {'numeric'}, {'scalar', 'integer', 'positive'}, ...
-                   mfilename, 'Nx')
-validateattributes(Ny, {'numeric'}, {'scalar', 'integer', 'positive'}, ...
-                   mfilename, 'Ny')
-validateattributes(acceptanceprob, {'numeric'}, ...
-    {'scalar', '>=', 0, '<=', 1}, mfilename, 'acceptanceprob')
-validateattributes(alpha, {'numeric'}, ...
-    {'scalar', '>=', 0, '<=', 1}, mfilename, 'alpha')
-validateattributes(stop_criterion, {'char'}, {'nonempty'}, ...
-                   mfilename, 'stop_criterion')
-validatestring(stop_criterion, {'NumFibers', 'Grammage'}, ...
-               mfilename, 'stop_criterion');
 switch stop_criterion
     case 'NumFibers'
         validateattributes(nfib, {'numeric'}, ...
@@ -233,9 +224,6 @@ switch stop_criterion
     case 'Grammage'
         validateattributes(grammage, {'numeric'}, ...
             {'nonempty', 'scalar', 'positive', 'finite'}, mfilename, 'grammage')
-        validateattributes(mass, {'char'}, {'nonempty'}, mfilename, 'mass')
-        validatestring(mass, {'coarseness', 'wall_density'}, ...
-                       mfilename, 'mass');
         switch mass
             case 'coarseness'
                 validateattributes(coarseness, {'numeric'}, ...
@@ -267,11 +255,6 @@ validateattributes(sum(fraction), {'numeric'}, ...
     {'scalar', '>=', 1, '<=', 1}, mfilename, 'sum(fraction)')
 validateattributes(choose_species, {'function_handle'}, {'nonempty'}, ...
                    mfilename, 'choose_species')
-validateattributes(blocksize, {'numeric'}, ...
-    {'size', [1 3], 'integer', 'positive'}, mfilename, 'blocksize')
-validateattributes(trace, {'logical'}, {'scalar'}, mfilename, 'trace')
-validateattributes(delay_trace, {'numeric'}, ...
-    {'scalar', 'nonnegative', 'finite'}, mfilename, 'delay_trace')
 
 % NOTE: in-plane cells must be square because we locate discrete positions
 % along the fiber by using a raster line-drawing algorithm.

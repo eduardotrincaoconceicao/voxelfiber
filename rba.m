@@ -3,7 +3,7 @@ function val = rba(x)
 %
 %   Example:
 %{
-      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, 'nfib', 1500);
+      randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, nfib = 1500);
       rba(randnet)
 %}
 
