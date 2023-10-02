@@ -177,9 +177,6 @@ function out = forming(fib_length, flex, Nx, Ny, options)
     end
 
 
-% Check for a legal number of input arguments
-narginchk(6, 42)
-
 % Extract arguments
 acceptanceprob = options.acceptanceprob;
 alpha = options.alpha;
