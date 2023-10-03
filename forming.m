@@ -11,10 +11,10 @@ function out = forming(fib_length, flex, Nx, Ny, options)
               nfib = 100, fib_width = [1 2 3 4], trace = true);
 
       randnet = forming([21 21 30 40], [1 2 3 4], 200, 200, nfib = 1500);
-      figure
-      subplot(2,2,1), spy(randnet.surface)
-      subplot(2,2,2), imagesc(randnet.surface), axis image
-      subplot(2,2,[3,4]), surf(randnet.surface), daspect([1 1 4])
+      figure, tiledlayout(2,2)
+      nexttile, spy(randnet.surface)
+      nexttile, imagesc(randnet.surface), axis image
+      nexttile([1 2]), surf(randnet.surface), daspect([1 1 4])
 
       tic
       randnet = forming(100, 1, 400, 400, ...
